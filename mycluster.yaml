@@ -1,0 +1,19 @@
+k8s:
+  dns: kube-dns.kube-system
+  persistence:
+    enabled: false
+
+whisk:
+  ingress:
+    apiHostName: 10.0.2.15
+
+controller:
+  imageName: "whisk/controller"
+  imageTag: "latest"
+
+invoker:
+  containerFactory:
+    impl: kubernetes
+    kubernetes:
+      agent:
+        enabled: false
