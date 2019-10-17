@@ -21,3 +21,6 @@ sudo mv owcli/wsk /usr/local/bin
 
 git clone https://github.com/wkk/openwhisk.git
 git clone https://github.com/wkk/openwhisk-deploy-kube.git
+
+kubectl create clusterrolebinding tiller-cluster-admin --clusterrole=cluster-admin --serviceaccount=kube-system:default
+kubectl label nodes --all openwhisk-role=invoker
