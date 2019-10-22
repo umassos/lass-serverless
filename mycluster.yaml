@@ -12,6 +12,8 @@ controller:
   imageTag: "latest"
 
 invoker:
+  imageName: "whisk/invoker"
+  imageTag: "latest"
   containerFactory:
     impl: kubernetes
     kubernetes:
