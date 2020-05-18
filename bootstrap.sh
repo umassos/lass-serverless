@@ -9,6 +9,8 @@ HELM_PACKAGE="helm-${HELM_VERSION}-${OS_TYPE}-${ARCH}.tar.gz"
 wget -q https://get.helm.sh/${HELM_PACKAGE}
 mkdir helm && tar xvzf ${HELM_PACKAGE} -C helm
 sudo mv helm/${OS_TYPE}-${ARCH}/helm /usr/local/bin
+rm ${HELM_PACKAGE}
+rm -rf helm
 
 echo 'export KUBECONFIG=/etc/rancher/k3s/k3s.yaml' >> ~/.profile
 source ~/.profile
@@ -18,6 +20,8 @@ OWCLI_PACKAGE="OpenWhisk_CLI-${OWCLI_VERSION}-${OS_TYPE}-${ARCH}.tgz"
 wget -q https://github.com/apache/openwhisk-cli/releases/download/${OWCLI_VERSION}/${OWCLI_PACKAGE}
 mkdir owcli && tar xvzf ${OWCLI_PACKAGE} -C owcli
 sudo mv owcli/wsk /usr/local/bin
+rm ${OWCLI_PACKAGE}
+rm -rf owcli
 
 git clone https://github.com/wkk/openwhisk.git
 git clone https://github.com/wkk/openwhisk-deploy-kube.git
