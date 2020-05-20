@@ -1,3 +1,6 @@
+# JetBrains
+.idea
+
 # Vagrant
 .vagrant
 *.log
