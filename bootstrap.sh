@@ -28,6 +28,6 @@ git clone https://github.com/wkk/openwhisk-deploy-kube.git
 
 ./openwhisk/tools/ubuntu-setup/all.sh
 sudo usermod -aG docker $USER
-newgrp docker
+
 
 kubectl label nodes --all openwhisk-role=invoker
