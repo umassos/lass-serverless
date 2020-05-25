@@ -27,7 +27,7 @@ resource "aws_key_pair" "edgewhisk" {
 
 resource "aws_instance" "edgewhisk" {
   ami = data.aws_ami.ubuntu.id
-  instance_type = "m5a.2xlarge"
+  instance_type = "m5a.xlarge"
   key_name = aws_key_pair.edgewhisk.id
   associate_public_ip_address = true
 
