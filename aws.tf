@@ -47,13 +47,6 @@ resource "aws_instance" "edgewhisk" {
     destination = "bootstrap.sh"
   }
 
-  provisioner "remote-exec" {
-    inline = [
-      "chmod +x bootstrap.sh",
-      "./bootstrap.sh"
-    ]
-  }
-
   provisioner "file" {
     source = "run.sh"
     destination = "run.sh"
@@ -62,6 +55,14 @@ resource "aws_instance" "edgewhisk" {
   provisioner "file" {
     source = "mycluster.yaml"
     destination = "mycluster.yaml"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "chmod +x bootstrap.sh",
+      "chmod +x run.sh",
+      "./bootstrap.sh"
+    ]
   }
 }
 
