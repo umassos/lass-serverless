@@ -52,17 +52,21 @@ resource "aws_instance" "edgewhisk" {
     destination = "run.sh"
   }
 
-  provisioner "file" {
-    source = "mycluster.yaml"
-    destination = "mycluster.yaml"
-  }
-
   provisioner "remote-exec" {
     inline = [
       "chmod +x bootstrap.sh",
+      "./bootstrap.sh",
+      "rm bootstrap.sh",
       "chmod +x run.sh",
-      "./bootstrap.sh"
     ]
+  }
+
+  provisioner "local-exec" {
+    command = "ssh-keyscan -H ${self.public_ip} >> ~/.ssh/known_hosts"
+  }
+
+  provisioner "local-exec" {
+    command = "ansible-playbook -u ubuntu -i ${self.public_ip}, --private-key edgewhisk.pem customize_deployment.yml"
   }
 }
 

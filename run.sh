@@ -23,4 +23,4 @@ do
 done
 
 
-helm install owdev openwhisk-deploy-kube/helm/openwhisk -f mycluster.yaml -n openwhisk --create-namespace
+cd openwhisk-deploy-kube && helm install owdev ./helm/openwhisk -f mycluster.yaml -n openwhisk --create-namespace
