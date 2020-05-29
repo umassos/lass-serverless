@@ -39,7 +39,7 @@
         dest: "/etc/environment"
         state: present
         regexp: "^WHISK_SERVER="
-        line: "WHISK_SERVER={{ API_HOST_NAME }}:{{ API_PORT }}"
+        line: "WHISK_SERVER=https://{{ API_HOST_NAME }}:{{ API_PORT }}"
       become: true
 
     - name: Configure OpenWhisk CLI
