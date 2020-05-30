@@ -1,3 +1,14 @@
+terraform {
+  backend "remote" {
+    hostname = "app.terraform.io"
+    organization = "binwang"
+
+    workspaces {
+      name = "edgewhisk"
+    }
+  }
+}
+
 provider "aws" {
   region = "us-east-2"
 }
