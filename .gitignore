@@ -1,6 +1,9 @@
 # JetBrains
 .idea
 
+# Visual Studio Code
+.vscode
+
 # Vagrant
 .vagrant
 *.log
