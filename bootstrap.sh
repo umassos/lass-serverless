@@ -23,8 +23,8 @@ sudo mv owcli/wsk /usr/local/bin
 rm ${OWCLI_PACKAGE}
 rm -rf owcli
 
-git clone https://github.com/wkk/openwhisk.git
-git clone https://github.com/wkk/openwhisk-deploy-kube.git
+git clone https://github.com/georgianfire/openwhisk.git
+git clone https://github.com/georgianfire/openwhisk-deploy-kube.git
 
 ./openwhisk/tools/ubuntu-setup/all.sh
 sudo usermod -aG docker $USER
