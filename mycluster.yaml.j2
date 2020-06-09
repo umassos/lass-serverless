@@ -16,7 +16,4 @@ invoker:
   imageName: "whisk/invoker"
   imageTag: "latest"
   containerFactory:
-    impl: kubernetes
-    kubernetes:
-      agent:
-        enabled: false
+    impl: "docker"
