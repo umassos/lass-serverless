@@ -14,7 +14,7 @@ import_image () {
     sudo ctr -n k8s.io -a /run/k3s/containerd/containerd.sock image import /tmp/custom-image.tar
 }
 
-declare -a images=("whisk/controller:latest" "whisk/invoker:latest")
+declare -a images=("whisk/controller:latest" "whisk/invoker:latest" "whisk/ow-utils:latest")
 for image in "${images[@]}"
 do
     echo "Importing $image"
