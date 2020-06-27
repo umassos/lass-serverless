@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-docker build . -t binw/mnv3-action
+docker build . -t mnv3-action

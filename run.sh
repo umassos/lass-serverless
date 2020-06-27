@@ -6,6 +6,9 @@ set -e
 cd openwhisk && ./gradlew distDocker
 cd ..
 
+cd mobilenetv3-action && bash build.sh
+cd ..
+
 import_image () {
     # Code from https://github.com/rancher/k3s/issues/213
     # To list imported images:
@@ -21,11 +24,17 @@ import_image () {
     fi
 }
 
-declare -a images=("whisk/controller:latest" "whisk/invoker:latest" "whisk/ow-utils:latest")
+upload_image () {
+  # need to do docker login first
+  docker tag $1 binw/$1
+  docker push binw/$1
+}
+
+declare -a images=("controller:latest" "invoker:latest" "ow-utils:latest" "mnv3-action:latest")
 for image in "${images[@]}"
 do
     echo "Importing $image"
-    import_image $image
+    upload_image $image
     echo "Imported $image"
 done
 

@@ -9,15 +9,18 @@ whisk:
 
 controller:
   edge: true
-  imageName: "whisk/controller"
+  imageName: "binw/controller"
   imageTag: "latest"
+  imagePullPolicy: "Always"
 
 utility:
-  imageName: "whisk/ow-utils"
+  imageName: "binw/ow-utils"
   imageTag: "latest"
+  imagePullPolicy: "Always"
 
 invoker:
-  imageName: "whisk/invoker"
+  imageName: "binw/invoker"
   imageTag: "latest"
+  imagePullPolicy: "Always"
   containerFactory:
     impl: "docker"

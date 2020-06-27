@@ -29,6 +29,5 @@ git clone https://github.com/georgianfire/openwhisk-deploy-kube.git
 ./openwhisk/tools/ubuntu-setup/all.sh
 sudo usermod -aG docker $USER
 
-sudo apt update && sudo apt install -y npm
+sudo apt update && sudo apt install -y npm jq
 
-kubectl label nodes --all openwhisk-role=invoker
