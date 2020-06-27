@@ -17,7 +17,7 @@ def init():
 
 @app.route("/run", methods=["POST"])
 def run():
-    input_size=(1, 3, 400, 300)
+    input_size=(1, 3, 224, 224)
     x = torch.randn(input_size)
     out = model(x)
     response = flask.jsonify({"message": "success"})
