@@ -53,6 +53,12 @@ resource "aws_instance" "edgewhisk-controller" {
     private_key = file("edgewhisk.pem")
   }
 
+  provisioner "remote-exec" {
+    inline = [
+      "cloud-init status --wait"
+    ]
+  }
+
   provisioner "file" {
     source = "bootstrap.sh"
     destination = "bootstrap.sh"
@@ -102,6 +108,7 @@ resource "aws_instance" "edgewhisk-invoker" {
 
   provisioner "remote-exec" {
     inline = [
+      "cloud-init status --wait",
       "git clone https://github.com/georgianfire/openwhisk",
       "./openwhisk/tools/ubuntu-setup/all.sh"
     ]
