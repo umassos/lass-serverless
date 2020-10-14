@@ -10,7 +10,7 @@ terraform {
 }
 
 provider "aws" {
-  region = "us-east-2"
+  region = "us-east-1"
 }
 
 # Get the latest Ubuntu 18.04 server ami
@@ -38,7 +38,7 @@ resource "aws_key_pair" "edgewhisk" {
 
 resource "aws_instance" "edgewhisk-controller" {
   ami = data.aws_ami.ubuntu.id
-  instance_type = "m5a.xlarge"
+  instance_type = "c5a.xlarge"
   key_name = aws_key_pair.edgewhisk.id
   associate_public_ip_address = true
 
@@ -84,7 +84,7 @@ resource "aws_instance" "edgewhisk-controller" {
 
 resource "aws_instance" "edgewhisk-invoker" {
   ami = data.aws_ami.ubuntu.id
-  instance_type = "m5a.xlarge"
+  instance_type = "c5a.xlarge"
   key_name = aws_key_pair.edgewhisk.id
   associate_public_ip_address = true
   count = 2
