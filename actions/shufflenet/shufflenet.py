@@ -1,6 +1,5 @@
 import torch
 import torch.nn as nn
-from .utils import load_state_dict_from_url
 
 
 __all__ = [
@@ -9,8 +8,8 @@ __all__ = [
 ]
 
 model_urls = {
-    'shufflenetv2_x0.5': 'https://download.pytorch.org/models/shufflenetv2_x0.5-f707e7126e.pth',
-    'shufflenetv2_x1.0': 'https://download.pytorch.org/models/shufflenetv2_x1-5666bf0f80.pth',
+    'shufflenetv2_x0.5': 'shufflenetv2_x0.5-f707e7126e.pth',
+    'shufflenetv2_x1.0': 'shufflenetv2_x1-5666bf0f80.pth',
     'shufflenetv2_x1.5': None,
     'shufflenetv2_x2.0': None,
 }
@@ -146,7 +145,7 @@ def _shufflenetv2(arch, pretrained, progress, *args, **kwargs):
         if model_url is None:
             raise NotImplementedError('pretrained {} is not supported as of now'.format(arch))
         else:
-            state_dict = load_state_dict_from_url(model_url, progress=progress)
+            state_dict = torch.load(model_url, map_location=torch.device("cpu"))
             model.load_state_dict(state_dict)
 
     return model
