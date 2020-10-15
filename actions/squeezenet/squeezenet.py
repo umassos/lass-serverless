@@ -1,13 +1,12 @@
 import torch
 import torch.nn as nn
 import torch.nn.init as init
-from .utils import load_state_dict_from_url
 
 __all__ = ['SqueezeNet', 'squeezenet1_0', 'squeezenet1_1']
 
 model_urls = {
-    'squeezenet1_0': 'https://download.pytorch.org/models/squeezenet1_0-a815701f.pth',
-    'squeezenet1_1': 'https://download.pytorch.org/models/squeezenet1_1-f364aa15.pth',
+    'squeezenet1_0': 'squeezenet1_0-a815701f.pth',
+    'squeezenet1_1': 'squeezenet1_1-f364aa15.pth',
 }
 
 
@@ -106,8 +105,7 @@ def _squeezenet(version, pretrained, progress, **kwargs):
     model = SqueezeNet(version, **kwargs)
     if pretrained:
         arch = 'squeezenet' + version
-        state_dict = load_state_dict_from_url(model_urls[arch],
-                                              progress=progress)
+        state_dict = torch.load(model_urls[arch], map_location=torch.device("cpu"))
         model.load_state_dict(state_dict)
     return model
 
