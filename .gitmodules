@@ -1,0 +1,3 @@
+[submodule "actions/binaryalert/binaryalert"]
+	path = actions/binaryalert/binaryalert
+	url = https://github.com/wkk/binaryalert
