@@ -1,3 +1,6 @@
 [submodule "actions/binaryalert/binaryalert"]
 	path = actions/binaryalert/binaryalert
 	url = https://github.com/wkk/binaryalert
+[submodule "actions/image-resizer"]
+	path = actions/image-resizer
+	url = https://github.com/jthomas/openwhisk-image-resize-wasm
