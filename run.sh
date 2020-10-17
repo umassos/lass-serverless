@@ -35,5 +35,12 @@ do
     echo "Imported $image"
 done
 
+remaining_pods=$(kubectl get pods -n openwhisk -o json | jq '.items | length')
+until [[ "$remaining_pods" == "0" ]]
+do
+    echo "$remaining_pods pods remaining, tring again in 5 seconds"
+    sleep 5s
+    remaining_pods=$(kubectl get pods -n openwhisk -o json | jq '.items | length')
+done
 
 cd openwhisk-deploy-kube && helm install owdev ./helm/openwhisk -f mycluster.yaml -n openwhisk --create-namespace
