@@ -6,6 +6,12 @@ k8s:
 whisk:
   ingress:
     apiHostName: {{ API_HOST_NAME }}
+  limits:
+    actions:
+      memory:
+        min: "128m"
+        max: "1024m"
+        std: "256m"
 
 controller:
   edge: true
