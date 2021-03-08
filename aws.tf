@@ -1,5 +1,16 @@
+terraform {
+  backend "remote" {
+    hostname = "app.terraform.io"
+    organization = "binwang"
+
+    workspaces {
+      name = "edgewhisk"
+    }
+  }
+}
+
 provider "aws" {
-  region = "us-east-2"
+  region = "us-east-1"
 }
 
 # Get the latest Ubuntu 18.04 server ami
@@ -25,9 +36,9 @@ resource "aws_key_pair" "edgewhisk" {
   public_key = file("edgewhisk.pub")
 }
 
-resource "aws_instance" "edgewhisk" {
+resource "aws_instance" "edgewhisk-controller" {
   ami = data.aws_ami.ubuntu.id
-  instance_type = "m5a.xlarge"
+  instance_type = "c5a.xlarge"
   key_name = aws_key_pair.edgewhisk.id
   associate_public_ip_address = true
 
@@ -40,6 +51,12 @@ resource "aws_instance" "edgewhisk" {
     user = "ubuntu"
     host = self.public_ip
     private_key = file("edgewhisk.pem")
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "cloud-init status --wait"
+    ]
   }
 
   provisioner "file" {
@@ -70,10 +87,46 @@ resource "aws_instance" "edgewhisk" {
   }
 }
 
-output "id" {
-  value = aws_instance.edgewhisk.id
+
+resource "aws_instance" "edgewhisk-invoker" {
+  ami = data.aws_ami.ubuntu.id
+  instance_type = "c5a.xlarge"
+  key_name = aws_key_pair.edgewhisk.id
+  associate_public_ip_address = true
+  count = 2
+
+  root_block_device {
+    volume_size = 30
+  }
+
+  connection {
+    type = "ssh"
+    user = "ubuntu"
+    host = self.public_ip
+    private_key = file("edgewhisk.pem")
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "cloud-init status --wait",
+      "git clone https://github.com/georgianfire/openwhisk",
+      "./openwhisk/tools/ubuntu-setup/all.sh"
+    ]
+  }
 }
 
-output "ip" {
-  value = aws_instance.edgewhisk.public_ip
+output "controller-id" {
+  value = aws_instance.edgewhisk-controller.id
+}
+
+output "controller-ip" {
+  value = aws_instance.edgewhisk-controller.public_ip
+}
+
+output "invoker-id" {
+  value = [aws_instance.edgewhisk-invoker[0].id, aws_instance.edgewhisk-invoker[1].id]
+}
+
+output "invoker-ip" {
+  value = [aws_instance.edgewhisk-invoker[0].public_ip, aws_instance.edgewhisk-invoker[1].public_ip]
 }

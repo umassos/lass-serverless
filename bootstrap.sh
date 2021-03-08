@@ -15,7 +15,7 @@ rm -rf helm
 echo 'export KUBECONFIG=/etc/rancher/k3s/k3s.yaml' >> ~/.profile
 source ~/.profile
 
-OWCLI_VERSION="1.0.0"
+OWCLI_VERSION="1.1.0"
 OWCLI_PACKAGE="OpenWhisk_CLI-${OWCLI_VERSION}-${OS_TYPE}-${ARCH}.tgz"
 wget -q https://github.com/apache/openwhisk-cli/releases/download/${OWCLI_VERSION}/${OWCLI_PACKAGE}
 mkdir owcli && tar xvzf ${OWCLI_PACKAGE} -C owcli
@@ -23,12 +23,11 @@ sudo mv owcli/wsk /usr/local/bin
 rm ${OWCLI_PACKAGE}
 rm -rf owcli
 
-git clone https://github.com/wkk/openwhisk.git
-git clone https://github.com/wkk/openwhisk-deploy-kube.git
+git clone https://github.com/georgianfire/openwhisk.git
+git clone https://github.com/georgianfire/openwhisk-deploy-kube.git
 
 ./openwhisk/tools/ubuntu-setup/all.sh
 sudo usermod -aG docker $USER
 
-sudo apt update && sudo apt install -y npm
+sudo apt update && sudo apt install -y npm jq
 
-kubectl label nodes --all openwhisk-role=invoker

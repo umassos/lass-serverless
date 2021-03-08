@@ -6,16 +6,27 @@ k8s:
 whisk:
   ingress:
     apiHostName: {{ API_HOST_NAME }}
+  limits:
+    actions:
+      memory:
+        min: "128m"
+        max: "1024m"
+        std: "256m"
 
 controller:
-  imageName: "whisk/controller"
+  edge: true
+  imageName: "binw/controller"
   imageTag: "latest"
+  imagePullPolicy: "Always"
+
+utility:
+  imageName: "binw/ow-utils"
+  imageTag: "latest"
+  imagePullPolicy: "Always"
 
 invoker:
-  imageName: "whisk/invoker"
+  imageName: "binw/invoker"
   imageTag: "latest"
+  imagePullPolicy: "Always"
   containerFactory:
-    impl: kubernetes
-    kubernetes:
-      agent:
-        enabled: false
+    impl: "docker"
