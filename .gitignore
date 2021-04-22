@@ -14,7 +14,3 @@
 *.tfstate.*
 *.pem
 *.pub
-
-# Ignore submodules for now since they are under active development
-openwhisk/
-openwhisk-deploy-kube/

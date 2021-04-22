@@ -4,3 +4,9 @@
 [submodule "actions/image-resizer"]
 	path = actions/image-resizer
 	url = https://github.com/jthomas/openwhisk-image-resize-wasm
+[submodule "openwhisk-deploy-kube"]
+	path = openwhisk-deploy-kube
+	url = git@github.com:umassos/openwhisk-deploy-kube.git
+[submodule "openwhisk"]
+	path = openwhisk
+	url = git@github.com:umassos/openwhisk.git
