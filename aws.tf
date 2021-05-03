@@ -1,14 +1,3 @@
-terraform {
-  backend "remote" {
-    hostname = "app.terraform.io"
-    organization = "binwang"
-
-    workspaces {
-      name = "edgewhisk"
-    }
-  }
-}
-
 provider "aws" {
   region = "us-east-1"
 }
@@ -31,15 +20,15 @@ data "aws_ami" "ubuntu" {
   owners = ["099720109477"] # Canonical
 }
 
-resource "aws_key_pair" "edgewhisk" {
-  key_name = "edgewhisk"
-  public_key = file("edgewhisk.pub")
+resource "aws_key_pair" "lass" {
+  key_name = "lass"
+  public_key = file("lass.pub")
 }
 
-resource "aws_instance" "edgewhisk-controller" {
+resource "aws_instance" "lass-controller" {
   ami = data.aws_ami.ubuntu.id
   instance_type = "c5a.xlarge"
-  key_name = aws_key_pair.edgewhisk.id
+  key_name = aws_key_pair.lass.id
   associate_public_ip_address = true
 
   root_block_device {
@@ -50,7 +39,7 @@ resource "aws_instance" "edgewhisk-controller" {
     type = "ssh"
     user = "ubuntu"
     host = self.public_ip
-    private_key = file("edgewhisk.pem")
+    private_key = file("lass.pem")
   }
 
   provisioner "remote-exec" {
@@ -83,15 +72,15 @@ resource "aws_instance" "edgewhisk-controller" {
   }
 
   provisioner "local-exec" {
-    command = "ansible-playbook -u ubuntu -i ${self.public_ip}, --private-key edgewhisk.pem customize_deployment.yml"
+    command = "ansible-playbook -u ubuntu -i ${self.public_ip}, --private-key lass.pem customize_deployment.yml"
   }
 }
 
 
-resource "aws_instance" "edgewhisk-invoker" {
+resource "aws_instance" "lass-invoker" {
   ami = data.aws_ami.ubuntu.id
   instance_type = "c5a.xlarge"
-  key_name = aws_key_pair.edgewhisk.id
+  key_name = aws_key_pair.lass.id
   associate_public_ip_address = true
   count = 2
 
@@ -103,7 +92,7 @@ resource "aws_instance" "edgewhisk-invoker" {
     type = "ssh"
     user = "ubuntu"
     host = self.public_ip
-    private_key = file("edgewhisk.pem")
+    private_key = file("lass.pem")
   }
 
   provisioner "remote-exec" {
@@ -116,17 +105,17 @@ resource "aws_instance" "edgewhisk-invoker" {
 }
 
 output "controller-id" {
-  value = aws_instance.edgewhisk-controller.id
+  value = aws_instance.lass-controller.id
 }
 
 output "controller-ip" {
-  value = aws_instance.edgewhisk-controller.public_ip
+  value = aws_instance.lass-controller.public_ip
 }
 
 output "invoker-id" {
-  value = [aws_instance.edgewhisk-invoker[0].id, aws_instance.edgewhisk-invoker[1].id]
+  value = aws_instance.lass-invoker.*.id
 }
 
 output "invoker-ip" {
-  value = [aws_instance.edgewhisk-invoker[0].public_ip, aws_instance.edgewhisk-invoker[1].public_ip]
+  value = aws_instance.lass-invoker.*.public_ip
 }
